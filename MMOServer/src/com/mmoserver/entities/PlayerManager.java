@@ -3,8 +3,7 @@ package com.mmoserver.entities;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ffserver.GameServer;
-import com.ffserver.entities.terrain.TerrainManager;
+import com.mmoserver.GameServer;
 
 public class PlayerManager {
 	private ConcurrentHashMap<Integer, Player> players;
@@ -16,18 +15,9 @@ public class PlayerManager {
 
 	}
 
-	public void update(float delta, TerrainManager tm) {
+	public void update(float delta) {
 		for (Player p : players.values()) {
-			p.update(delta, tm);
-			if (p.getIsDead() && !p.getWasDeadLF()) {
-				// add kill and death to stats
-				players.get(p.getLastHitBy()).addKill();
-				p.addDeath();
-				server.sendAddKillDeath(p.getLastHitBy(), p.getID());
-				//tell clients to kill the player
-				server.sendKill(p.getID());
-				p.setWasDeadLF(true);
-			}
+			p.update(delta);
 		}
 	}
 
@@ -39,8 +29,8 @@ public class PlayerManager {
 		return players.get(id);
 	}
 
-	public void addPlayer(int id, String name, PlayerModel model) {
-		players.put(id, new Player(id, name, model));
+	public void addPlayer(int id, String name) {
+		players.put(id, new Player(id, name));
 	}
 
 	public void removePlayer(int id) {

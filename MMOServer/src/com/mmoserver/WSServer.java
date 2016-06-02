@@ -1,18 +1,13 @@
 package com.mmoserver;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
-
-import com.badlogic.gdx.math.Vector3;
-import com.ffserver.entities.PlayerModel;
 
 public class WSServer {
 	private int port;
@@ -56,12 +51,7 @@ public class WSServer {
 					System.out.println("Server sent MSG_SEND_ID " + clientId);
 
 					// l�gg till i hashmap
-					PlayerModel model = new PlayerModel(Integer.valueOf(values[2]),
-							new Vector3(Float.valueOf(values[3]), Float.valueOf(values[4]), Float.valueOf(values[5]))
-							, new Vector3(Float.valueOf(values[6]), Float.valueOf(values[7]), Float.valueOf(values[8]))
-							, new Vector3(Float.valueOf(values[9]), Float.valueOf(values[10]), Float.valueOf(values[11]))
-							, new Vector3(Float.valueOf(values[12]), Float.valueOf(values[13]), Float.valueOf(values[14])));
-					s.addPlayer(clientId, values[1], model);
+					s.addPlayer(clientId, values[1]);
 
 					clientId++;
 					nClients++;

@@ -8,8 +8,7 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_17; //This is the Standard WebSocket Implementation
 import org.java_websocket.handshake.ServerHandshake;
 
-import com.fightingfriends.Loop;
-import com.fightingfriends.entities.PlayerModel;
+import com.mmoclient.Loop;
 
 public class WSClient implements ComClient {
 	private int port;
@@ -18,34 +17,14 @@ public class WSClient implements ComClient {
 
 	private int myID;
 	private String name;
-	private ClientMSG c;
+	private Client c;
 
-	private int hat;
-	private float hatColorR, hatColorG, hatColorB;
-	private float torsoColorR, torsoColorG, torsoColorB;
-	private float legColorR, legColorG, legColorB;
-	private float shoeColorR, shoeColorG, shoeColorB;
-
-	public WSClient(String ip, int port, ClientMSG c, Loop.platformCode pC, String name, PlayerModel model) {
+	public WSClient(String ip, int port, Client c, Client.platformCode pC, String name) {
 		this.port = port;
 		connected = false;
 		this.connectClient(ip);
 		myID = -1;
 		this.name = name;
-
-		this.hat = model.getHat();
-		this.hatColorR = model.getHatColor().x;
-		this.hatColorG = model.getHatColor().y;
-		this.hatColorB = model.getHatColor().z;
-		this.torsoColorR = model.getTorsoColor().x;
-		this.torsoColorG = model.getTorsoColor().y;
-		this.torsoColorB = model.getTorsoColor().z;
-		this.legColorR = model.getLegColor().x;
-		this.legColorG = model.getLegColor().y;
-		this.legColorB = model.getLegColor().z;
-		this.shoeColorR = model.getShoeColor().x;
-		this.shoeColorG = model.getShoeColor().y;
-		this.shoeColorB = model.getShoeColor().z;
 
 		this.c = c; // f�r att k�ra metoder fr�n ClientMSG
 	}
@@ -67,8 +46,7 @@ public class WSClient implements ComClient {
 				@Override
 				public void onOpen(ServerHandshake handshake) {
 					connected = true;
-					requestID(name, hat, hatColorR, hatColorG, hatColorB, torsoColorR, torsoColorG, torsoColorB,
-							legColorR, legColorG, legColorB, shoeColorR, shoeColorG, shoeColorB);
+					requestID(name);
 				}
 
 				@Override
@@ -105,12 +83,8 @@ public class WSClient implements ComClient {
 		}
 	}
 
-	private void requestID(String name, int hat, float hatColorR, float hatColorG, float hatColorB, float torsoColorR,
-			float torsoColorG, float torsoColorB, float legColorR, float legColorG, float legColorB, float shoeColorR,
-			float shoeColorG, float shoeColorB) {
-		sendMsg("MSG_REQUEST_ID;" + name + ";" + hat + ";" + hatColorR + ";" + hatColorG + ";" + hatColorB + ";"
-				+ torsoColorR + ";" + torsoColorG + ";" + torsoColorB + ";" + legColorR + ";" + legColorG + ";"
-				+ legColorB + ";" + shoeColorR + ";" + shoeColorG + ";" + shoeColorB);
+	private void requestID(String name) {
+		sendMsg("MSG_REQUEST_ID;" + name);
 	}
 
 	public boolean sendMsg(String msg) {

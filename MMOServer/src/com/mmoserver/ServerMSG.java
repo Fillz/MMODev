@@ -1,7 +1,5 @@
 package com.mmoserver;
 
-import com.ffserver.entities.PlayerModel;
-
 public class ServerMSG {
 	private WSServer wss;
 	private GameServer s;
@@ -11,8 +9,8 @@ public class ServerMSG {
 		this.s = s; // f�r att k�ra metoder fr�n GameServer
 	}
 
-	public void addPlayer(int id, String name, PlayerModel model) {
-		s.addPlayer(id, name, model);
+	public void addPlayer(int id, String name) {
+		s.addPlayer(id, name);
 	}
 
 	public void removePlayer(int id) {
@@ -20,34 +18,10 @@ public class ServerMSG {
 	}
 
 	public void onMessage(String message) {
-		String[] values = message.split(";"); // dela upp vid ";"
+		String[] values = message.split(";");
 
 		if (values[0].equals("C_PING")) {
 			sendMessageToClient(Integer.valueOf(values[1]), "S_PING");
-		}
-
-		if (values[0].equals("C_RESPAWN_PLAYER")) {
-			s.respawnPlayer(Integer.valueOf(values[1]));
-		}
-		if (values[0].equals("C_MOVE_PLAYER")) {
-			s.movePlayer(Integer.valueOf(values[1]), Float.valueOf(values[2]));
-		}
-		if (values[0].equals("C_JUMP_PLAYER")) {
-			s.jumpPlayer(Integer.valueOf(values[1]));
-		}
-		if (values[0].equals("C_ATTACK")) {
-			s.attackWithSword(Integer.valueOf(values[1]), Float.valueOf(values[2]), Float.valueOf(values[3]),
-					Float.valueOf(values[4]));
-		}
-		if (values[0].equals("C_SHOOT")) {
-			s.shootWithWeapon(Integer.valueOf(values[1]), Float.valueOf(values[2]), Float.valueOf(values[3]),
-					Float.valueOf(values[4]), Integer.valueOf(values[5]), Boolean.valueOf(values[6]));
-		}
-		if (values[0].equals("C_PICKUP_WEAPON")) {
-			s.pickupWeapon(Integer.valueOf(values[1]));
-		}
-		if (values[0].equals("C_CHAT_MSG")) {
-			s.chatMessage(Integer.valueOf(values[1]), values[2]);
 		}
 	}
 

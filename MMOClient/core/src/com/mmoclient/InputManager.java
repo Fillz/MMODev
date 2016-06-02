@@ -16,12 +16,6 @@ public class InputManager {
 		dirLF = 0;
 	}
 	
-	public void checkInputRespawn(){
-		if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-			loop.getPacketSender().sendRespawn();
-		}
-	}
-	
 	public void checkInputDir() {
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			dir = -1;
@@ -33,43 +27,8 @@ public class InputManager {
 		if (dirLF == dir)
 			return;
 		// send to server
-		loop.getPacketSender().sendDir(dir);
+		//loop.getPacketSender().sendDir(dir);
 
 		dirLF = dir;
-	}
-
-	public void checkInputJump(Player p) {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {	
-			if (!p.getIsInAir()) {
-				loop.getPacketSender().sendJump();
-			}
-		} 
-	}
-
-	public void checkInputShoot(Player p) {
-		if (Gdx.input.justTouched()||(p.getWeapon().canFire())&&Gdx.input.isTouched()){
-			p.getWeapon().setCantFire();
-			if (p.getWeapon().getType() == 0)
-				loop.getPacketSender().sendAttack(p.getWeapon().getExitPos().x, p.getWeapon().getExitPos().y, p.getAngleToCursor());
-			else
-				loop.getPacketSender().sendShoot(p.getWeapon().getExitPos().x, p.getWeapon().getExitPos().y, p.getAngleToCursor(),
-						p.getWeapon().getDamage(), p.getWeapon().getCreateMissile());	
-		}
-		//REMOVE LATER
-		//WHEN INPUT FOR MOUSEPAD IS WORKING
-		else if (Gdx.input.isKeyJustPressed(Keys.Q)||(p.getWeapon().canFire())&&Gdx.input.isKeyPressed(Keys.Q)){
-			p.getWeapon().setCantFire();
-			if (p.getWeapon().getType() == 0)
-				loop.getPacketSender().sendAttack(p.getWeapon().getExitPos().x, p.getWeapon().getExitPos().y, p.getAngleToCursor());
-			else
-				loop.getPacketSender().sendShoot(p.getWeapon().getExitPos().x, p.getWeapon().getExitPos().y, p.getAngleToCursor(),
-						p.getWeapon().getDamage(), p.getWeapon().getCreateMissile());	
-		}
-	}
-	
-	public void checkInputPickup(Player p) {
-		if (Gdx.input.isKeyJustPressed(Keys.E)) {
-			loop.getPacketSender().sendPickupWeapon();
-		}
 	}
 }

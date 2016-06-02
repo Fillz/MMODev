@@ -4,10 +4,8 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.fightingfriends.MainGame;
-import com.fightingfriends.entities.particles.ParticleManager;
-import com.fightingfriends.entities.terrain.TerrainManager;
+import com.mmoclient.MainGame;
+import com.mmoclient.entities.terrain.TerrainManager;
 
 public class PlayerManager {
 	private MainGame game;
@@ -18,10 +16,10 @@ public class PlayerManager {
 		players = new ConcurrentHashMap<Integer, Player>(8);
 	}
 
-	public void update(float delta, TerrainManager tm, ParticleManager pm, Vector2 touchPos) {
+	public void update(float delta, TerrainManager tm, Vector2 touchPos) {
 		for (Player p : players.values()) {
 			if (!p.getIsDead())
-				p.update(delta, tm, pm, touchPos);
+				p.update(delta, tm, touchPos);
 		}
 	}
 
@@ -29,13 +27,6 @@ public class PlayerManager {
 		for (Player p : players.values()) {
 			if (!p.getIsDead())
 				p.render();
-		}
-	}
-
-	public void renderNames() {
-		for (Player p : players.values()) {
-			if (!p.getIsDead())
-				p.renderName();
 		}
 	}
 
@@ -47,10 +38,9 @@ public class PlayerManager {
 		return players.get(id);
 	}
 
-	public void addPlayer(int id, String name, float x, float y, int wType, int myID, int hat, Vector3 hatColor,
-			Vector3 torsoColor, Vector3 legColor, Vector3 shoeColor) {
+	public void addPlayer(int id, String name, float x, float y, int myID) {
 		players.put(id,
-				new Player(game, id, name, x, y, wType, id == myID, hat, hatColor, torsoColor, legColor, shoeColor));
+				new Player(game, id, name, x, y, id == myID));
 	}
 
 	public void removePlayer(int id) {

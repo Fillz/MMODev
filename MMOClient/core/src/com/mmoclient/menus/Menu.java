@@ -21,8 +21,6 @@ public class Menu {
 	private KeyInputListener keyInputListener;
 	private Rectangle usernameBox;
 	
-	private ModelEditor me;
-	
 	private BorderDrawer bd;
 	
 	public Menu(final MainGame game){
@@ -35,13 +33,10 @@ public class Menu {
 		keyInputListener = new KeyInputListener(false, 16);
 		usernameBox = new Rectangle(16, 384, 256, 40);
 		
-		me = new ModelEditor(game);
-		me.randomize();
 		bd = new BorderDrawer();
 	}
 	
 	public void update(float delta, Vector2 touchPos){
-		me.update(delta, touchPos);
 		playButton.update(delta, touchPos);
 		if(Gdx.input.isTouched()){
 			if(usernameBox.contains(new Vector2(touchPos.x, touchPos.y)))
@@ -60,7 +55,6 @@ public class Menu {
 		userName = keyInputListener.getText().toLowerCase();
 	}
 	public void render(){
-		me.render();
 		if(textInput) game.batch.setColor(1, 1, 1, 0.85f);
 		else game.batch.setColor(1, 1, 1, 0.5f);
 		game.batch.draw(game.am.pixel, usernameBox.x, usernameBox.y, usernameBox.width, usernameBox.height);
@@ -91,8 +85,5 @@ public class Menu {
 	}
 	public String getName(){
 		return userName;
-	}
-	public ModelEditor getME(){
-		return me;
 	}
 }
